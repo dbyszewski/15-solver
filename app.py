@@ -15,16 +15,11 @@ MAX_DEPTH = 20
 class Node:
     def __init__(self, current_puzzle, parent, last_move, moves, score=0):
         self.puzzle = current_puzzle
-        # children['L'] - dziecko po ruchu w lewo, R prawo itd jakby cos XD
         self.children = {}
-        # sekwencja ruch : błąd jaki po tym ruchu bedzie
-        self.errors = {}
         self.parent = parent
         self.last = last_move
-        # A to jest jakie ruchy do tego doprowadzily
         self.moves = moves.copy()
         self.moves.append(last_move)
-        # Kolejka do odwiedzenia
         self.possible_moves = ORDER.copy()
         self.score = score
 
@@ -138,7 +133,6 @@ def dfs(start_time):
     moved_back = False
     max_depth_visited = False
     current_node.remove_edge_directions()
-    return -1, processed_nodes, visited_nodes, depth
 
     while True:
         if current_node.is_solved():
@@ -202,13 +196,6 @@ def bfs(start_time):
             visited_nodes += 1
 
 
-def get_index_of_value(board, value):
-    for index_row, row in enumerate(board):
-        for index_col, elem in enumerate(row):
-            if elem == value:
-                return index_row, index_col
-
-
 def manh(current_board):
     distance = 0
     for y1 in range(len(current_board)):
@@ -226,7 +213,8 @@ def hamm(current_board):
                 distance += 1
     return distance
 
-def astr(heuristic, start_time):
+
+def astr(heuristic):
     visited_nodes, processed_nodes = 0, 1
     nodes_pool = []
     nodes_history = []
@@ -292,5 +280,5 @@ if __name__ == '__main__':
     else:
         heuristic = globals()[args.order]
         start_time = time.time()
-        prepare_solution(algorithm(heuristic, start_time), args.solution_file, args.statistic_file, start_time)
+        prepare_solution(algorithm(heuristic), args.solution_file, args.statistic_file, start_time)
 
