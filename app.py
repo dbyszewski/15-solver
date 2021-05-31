@@ -216,20 +216,20 @@ def astr(heuristic):
 
 
 # Heuristics
-def manh(current_board):
+def manh(current_puzzle):
     distance = 0
-    for y1 in range(len(current_board)):
-        for x1 in range(len(current_board)):
-            y2, x2 = find_indexes(SOLVED_PUZZLE, current_board[y1][x1])
+    for y1 in range(len(current_puzzle)):
+        for x1 in range(len(current_puzzle)):
+            y2, x2 = find_indexes(SOLVED_PUZZLE, current_puzzle[y1][x1])
             distance += abs(y1 - y2) + abs(x1 - x2)
     return distance
 
 
-def hamm(current_board):
+def hamm(current_puzzle):
     distance = 0
-    for y in range(len(current_board)):
-        for x in range(len(current_board)):
-            if current_board[y][x] != SOLVED_PUZZLE[y][x]:
+    for y in range(len(current_puzzle)):
+        for x in range(len(current_puzzle)):
+            if current_puzzle[y][x] != SOLVED_PUZZLE[y][x]:
                 distance += 1
     return distance
 
@@ -243,9 +243,9 @@ if __name__ == '__main__':
     parser.add_argument('statistic_file')
     args = parser.parse_args()
 
-    with open(args.source_file) as board:
+    with open(args.source_file) as puzzle:
         is_first_line_flag = True
-        for line in board:
+        for line in puzzle:
             if is_first_line_flag:
                 solved_1d = list(range(1, int(line.split()[0]) ** 2))
                 solved_1d.append(0)
